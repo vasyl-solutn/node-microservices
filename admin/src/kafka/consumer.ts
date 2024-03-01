@@ -27,7 +27,7 @@ createConnection().then(async () => {
             } catch (e) {
                 await getRepository(KafkaError).save({
                     key,
-                    value,
+                    value: message.message.value.toString(),
                     error: e.message
                 });
             }

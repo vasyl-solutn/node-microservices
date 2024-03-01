@@ -12,7 +12,7 @@ services:
       KAFKA_USERNAME:
       KAFKA_PASSWORD:
       KAFKA_TOPIC: admin_topic
-      DB_HOST:
+      DB_HOST: admin_db
       DB_PORT: 3306
       DB_DATABASE: admin
       DB_USERNAME: root
@@ -28,6 +28,12 @@ services:
   admin_consumer:
     build: .
     command: 'npm run consume'
+    environment:
+      DB_HOST: admin_db
+      DB_PORT: 3306
+      DB_DATABASE: admin
+      DB_USERNAME: root
+      DB_PASSWORD: root
     depends_on:
       - admin_db
     networks:

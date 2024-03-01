@@ -6,25 +6,25 @@ import {producer} from "../kafka/config";
 export const Products = async (req: Request, res: Response) => {
     const product = await getRepository(Product).find();
 
-    const messages = [
-        {
-            key: "productCreated",
-            value: JSON.stringify(product)
-        }
-    ];
+    // const messages = [
+    //     {
+    //         key: "productCreated",
+    //         value: JSON.stringify(product)
+    //     }
+    // ];
 
-    await producer.sendBatch({
-        topicMessages: [
-            {
-                topic: 'ambassador_topic',
-                messages
-            },
-            {
-                topic: 'checkout_topic',
-                messages
-            },
-        ]
-    });
+    // await producer.sendBatch({
+    //     topicMessages: [
+    //         {
+    //             topic: 'ambassador_topic',
+    //             messages
+    //         },
+    //         {
+    //             topic: 'checkout_topic',
+    //             messages
+    //         },
+    //     ]
+    // });
 
     res.send(product);
 }
@@ -89,6 +89,6 @@ export const DeleteProduct = async (req: Request, res: Response) => {
             },
         ]
     });
-    
+
     res.status(204).send(null);
 }

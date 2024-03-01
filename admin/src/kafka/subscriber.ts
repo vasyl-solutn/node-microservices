@@ -5,6 +5,7 @@ import {Order} from "../entity/order.entity";
 export class Subscriber {
 
     static async linkCreated(link: Link) {
+        // console.log('link created', link);
         await getRepository(Link).save(link);
     }
 
