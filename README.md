@@ -1,9 +1,5 @@
 ## Setup
-### Seed
 docker-compose run admin_backend sh
-npm run seed:products
-npm run seed:links
-npm run seed:orders
 
 ### Up admin consumer
 npm run consume

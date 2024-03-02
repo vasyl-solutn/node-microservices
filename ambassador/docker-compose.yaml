@@ -57,6 +57,8 @@ services:
       - .dbdata:/var/lib/mysql
     networks:
       - ambassador
+    ports:
+      - "8802:3306"
 
   redis:
     image: redis

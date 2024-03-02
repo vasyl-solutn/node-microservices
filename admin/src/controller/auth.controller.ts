@@ -20,14 +20,25 @@ export const Login = async (req: Request, res: Response) => {
         scope: 'admin'
     });
 
-    res.cookie("jwt", data['jwt'], {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000//1 day
-    });
+    if (data['jwt']) {
+        res.cookie("jwt", data['jwt'], {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000//1 day
+        });
 
-    res.send({
-        message: 'success'
-    });
+        res.send({
+            message: 'success'
+        });
+    } else {
+        res.cookie("jwt", null, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000//1 day
+        });
+
+        res.status(401).send({
+            message: 'incorrect credentials'
+        });
+    }
 }
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {

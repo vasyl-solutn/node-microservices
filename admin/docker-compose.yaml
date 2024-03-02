@@ -50,6 +50,8 @@ services:
       - .dbdata:/var/lib/mysql
     networks:
       - admin
+    ports:
+      - "8801:3306"
 
 networks:
   admin:
