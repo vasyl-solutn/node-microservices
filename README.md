@@ -16,3 +16,9 @@ http://0.0.0.0:8025
 - admin service
 - email service
 - mailhog
+
+## Up front end
+npm start
+
+### Checkout next.js
+npm run dev

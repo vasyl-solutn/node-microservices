@@ -16,6 +16,7 @@ export const Register = async (req: Request, res: Response) => {
 
     const user = await getRepository(User).save({
         ...body,
+        is_ambassador: body.is_ambassador === 'true',
         password: await bcryptjs.hash(password, 10),
     });
 
@@ -61,7 +62,14 @@ export const Login = async (req: Request, res: Response) => {
 export const AuthenticatedUser = async (req: Request, res: Response) => {
     const user = req["user"];
 
+    // req["scope"] is a jwt scope
     if ((req.params.scope == 'ambassador' && req["scope"] !== 'ambassador') || (req.params.scope == 'admin' && req["scope"] !== 'admin')) {
+        return res.status(401).send({
+            message: 'unauthorized'
+        });
+    }
+
+    if (user.is_ambassador && req.params.scope != 'ambasador') {
         return res.status(401).send({
             message: 'unauthorized'
         });
