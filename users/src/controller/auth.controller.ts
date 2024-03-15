@@ -69,7 +69,7 @@ export const AuthenticatedUser = async (req: Request, res: Response) => {
         });
     }
 
-    if (user.is_ambassador && req.params.scope != 'ambasador') {
+    if (user.is_ambassador && req.params.scope != 'ambassador') {
         return res.status(401).send({
             message: 'unauthorized'
         });

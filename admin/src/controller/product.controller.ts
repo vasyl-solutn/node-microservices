@@ -6,31 +6,36 @@ import {producer} from "../kafka/config";
 export const Products = async (req: Request, res: Response) => {
     const product = await getRepository(Product).find();
 
-    // const messages = [
-    //     {
-    //         key: "productCreated",
-    //         value: JSON.stringify(product)
-    //     }
-    // ];
-
-    // await producer.sendBatch({
-    //     topicMessages: [
-    //         {
-    //             topic: 'ambassador_topic',
-    //             messages
-    //         },
-    //         {
-    //             topic: 'checkout_topic',
-    //             messages
-    //         },
-    //     ]
-    // });
-
     res.send(product);
 }
 
 export const CreateProduct = async (req: Request, res: Response) => {
-    res.status(201).send(await getRepository(Product).save(req.body));
+    const result = await getRepository(Product).save(req.body)
+
+    const product = await getRepository(Product).findOne(result.id);
+    console.log(product);
+
+    const messages = [
+        {
+            key: "productCreated",
+            value: JSON.stringify(product)
+        }
+    ];
+
+    await producer.sendBatch({
+        topicMessages: [
+            {
+                topic: 'ambassador_topic',
+                messages
+            },
+            {
+                topic: 'checkout_topic',
+                messages
+            },
+        ]
+    });
+
+    res.status(201).send(result);
 }
 
 export const GetProduct = async (req: Request, res: Response) => {
@@ -53,6 +58,17 @@ export const UpdateProduct = async (req: Request, res: Response) => {
 
     await producer.sendBatch({
         topicMessages: [
+            // {
+            //     topic: 'admin_topic',
+            //     messages: [{
+            //         key: "linkCreated",
+            //         value: JSON.stringify({
+            //             id: 1,
+            //             url: "http://localhost:3000/product/" + product.id,
+            //             product: product.id
+            //         })
+            //     }]
+            // },
             {
                 topic: 'ambassador_topic',
                 messages

@@ -22,7 +22,7 @@ export class UserService {
             return response.data;
         } catch (e) {
             console.log(e.response);
-            return e.response.data;
+            throw e;
         }
     }
 
