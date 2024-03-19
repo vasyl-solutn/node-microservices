@@ -17,6 +17,12 @@ http://0.0.0.0:8025
 - email service
 - mailhog
 
+# Front End
+## Node version
+16+
+nvm use 16
+npm i
+
 ## Up front end
 npm start
 

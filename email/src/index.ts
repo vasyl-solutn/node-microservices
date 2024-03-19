@@ -23,6 +23,7 @@ const transporter = createTransport({
     host: process.env.MAIL_HOST,
     port: parseInt(process.env.MAIL_PORT),
     auth: {
+        type: "login", // default
         user: process.env.MAIL_USERNAME,
         pass: process.env.MAIL_PASSWORD
     }
@@ -31,7 +32,7 @@ const transporter = createTransport({
 const run = async () => {
     await consumer.connect();
 
-    await consumer.subscribe({topic: 'email_topic'});
+    await consumer.subscribe({topic: process.env.KAFKA_TOPIC});
 
     await consumer.run({
         eachMessage: async (message: EachMessagePayload) => {
@@ -53,7 +54,7 @@ const run = async () => {
         }
     });
 
-    await transporter.close()
+    transporter.close()
 }
 
 run().then(console.error);
