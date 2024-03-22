@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: email-backend-test
+spec:
+  containers:
+    - name: email-backend-test
+      image: vasyl/email:0.0.2
