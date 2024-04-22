@@ -146,5 +146,3 @@ spec:
       targetPort: 8000
   selector:
     io.kompose.service: checkout-backend
-
-

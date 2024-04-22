@@ -36,7 +36,16 @@ const run = async () => {
 
     await consumer.run({
         eachMessage: async (message: EachMessagePayload) => {
-            const order = JSON.parse(message.message.value.toString());
+            const stringValue = message.message.value.toString();
+            let order: any;
+            try {
+                order = JSON.parse(stringValue);
+            } catch (e) {
+                console.log('Error parsing JSON: ', stringValue);
+                return;
+            }
+
+            console.log('Sending email', order);
 
             await transporter.sendMail({
                 from: 'from@example.com',

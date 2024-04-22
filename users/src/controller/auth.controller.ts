@@ -91,13 +91,28 @@ export const Logout = async (req: Request, res: Response) => {
 }
 
 export const UpdateInfo = async (req: Request, res: Response) => {
-    const user = req["user"];
+    const userId = req.body.id;
+
+    if (!userId) {
+        return res.status(400).send({
+            message: 'User id is required'
+        });
+    }
 
     const repository = getRepository(User);
 
-    await repository.update(user.id, req.body);
+    const user_body = {} as User;
+    if (req.body.first_name) {
+        user_body.first_name = req.body.first_name;
+    }
 
-    res.send(await repository.findOne(user.id));
+    if (req.body.last_name) {
+        user_body.last_name = req.body.last_name;
+    }
+
+    await repository.update(userId, user_body);
+
+    res.send(await repository.findOne(userId));
 }
 
 export const UpdatePassword = async (req: Request, res: Response) => {
